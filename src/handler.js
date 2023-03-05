@@ -2,17 +2,22 @@ const { nanoid } = require("nanoid");
 const notes = require("./notes");
 
 const addNoteHandler = (request,h) => {
-    const {title,tags,body}= request.payload;
+    const {title,tags,body} = request.payload;
 
     const id = nanoid(16);
     const createdAt = new Date().toISOString();
     const updatedAt = createdAt;
 
-    const newNote = {
-        title,tags,body,id,createdAt,updatedAt,
-    };
+    console.log(title, tags, body);
 
-    notes.push(newNote);
+    notes.push({
+      title,
+      tags,
+      body,
+      id,
+      createdAt,
+      updatedAt
+    })
     
     const isSuccess = notes.filter((note) => note.id === id).length > 0;
 
@@ -95,7 +100,7 @@ const editNoteByIdHandler = (request,h) => {
 
 }
 
-const deleteNoteById = (request,h) => {
+const deleteNoteByIdHandler = (request,h) => {
   const {id} = request.params;
 
   const index = notes.findIndex((note)=> note.id === id);
@@ -117,4 +122,4 @@ const deleteNoteById = (request,h) => {
   return response;
 }
 
-module.exports = { addNoteHandler,getAllNotesHandler,getNoteByIdHandler,editNoteByIdHandler};
+module.exports = { addNoteHandler,getAllNotesHandler,getNoteByIdHandler,editNoteByIdHandler,deleteNoteByIdHandler};
